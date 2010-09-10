@@ -71,6 +71,12 @@ public class AnagraficaLavoratore extends LayoutContainer {
         configs.add(sm.getColumn());
 
         ColumnConfig column = new ColumnConfig();
+        column.setId("id");
+        column.setHeader("ID");
+        column.setWidth(150);
+        configs.add(column);
+
+        column = new ColumnConfig();
         column.setId("nome");
         column.setHeader("Nome");
         column.setWidth(150);
