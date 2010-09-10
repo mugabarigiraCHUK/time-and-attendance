@@ -77,7 +77,7 @@ public class GestionePresenze extends LayoutContainer {
     FormPanel form = null;
     private FormBinding formBindings;
     private FormData formData = new FormData();
-    private FormData formData2 = new FormData("50%");
+    private FormData formData2 = new FormData();
     NumberField quantita = null;
     MyDateField dataPresenza = null;
     TextField<String> idLavoratore = null;
@@ -182,7 +182,7 @@ public class GestionePresenze extends LayoutContainer {
         //comboAziende.setOriginalValue(null);
         comboAziende.setDisplayField("denominazione");
         comboAziende.setFieldLabel("Azienda");
-        comboAziende.setWidth(150);
+        comboAziende.setWidth(200);
         comboAziende.setStore(storeAziende);
         comboAziende.setTypeAhead(true);
         comboAziende.setTriggerAction(TriggerAction.ALL);
@@ -202,7 +202,7 @@ public class GestionePresenze extends LayoutContainer {
         comboMese.setFieldLabel("Mese");
         comboMese.setForceSelection(true);
         comboMese.setEditable(false);
-        comboMese.setWidth(50);
+        comboMese.setWidth(150);
         comboMese.setTriggerAction(TriggerAction.ALL);
         comboMese.setEmptyText("Seleziona un mese...");
         comboMese.add("01");
@@ -235,7 +235,7 @@ public class GestionePresenze extends LayoutContainer {
         comboAnno.setFieldLabel("Anno");
         comboAnno.setForceSelection(true);
         comboAnno.setEditable(false);
-        comboAnno.setWidth(50);
+        comboAnno.setWidth(150);
         comboAnno.setTriggerAction(TriggerAction.ALL);
         comboAnno.setEmptyText("Seleziona un anno...");
         comboAnno.add("2010");

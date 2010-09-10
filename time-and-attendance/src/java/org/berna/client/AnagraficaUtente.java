@@ -69,7 +69,7 @@ public class AnagraficaUtente extends LayoutContainer {
     ArrayList<BeanModel> listBean = null;
     ComboBox<BeanModel> comboAzienda = null;
     ComboBox<BeanModel> comboLavoratore = null;
-    private FormData formData = new FormData();
+    private FormData formData = new FormData("60%");
 
     @Override
     protected void onRender(Element parent, int index) {
@@ -109,6 +109,12 @@ public class AnagraficaUtente extends LayoutContainer {
         text = new TextField<String>();
         text.setAllowBlank(false);
         column.setEditor(new CellEditor(text));
+        configs.add(column);
+
+        column = new ColumnConfig();
+        column.setId("idLavoratore");
+        column.setHeader("Lavoratore assegnato");
+        column.setWidth(150);
         configs.add(column);
 
         comboRole = new SimpleComboBox<String>();
@@ -373,13 +379,11 @@ public class AnagraficaUtente extends LayoutContainer {
 
         ListField<BeanModel> from = lists.getFromList();
         from.setDisplayField("denominazione");
-        from.setWidth(150);
         storeAziendeAssegnate.setStoreSorter(new StoreSorter<BeanModel>());
         from.setStore(storeAziendeAssegnate);
 
         ListField<BeanModel> to = lists.getToList();
         to.setDisplayField("denominazione");
-        to.setWidth(150);
         storeAziendeNonAssegnate.setStoreSorter(new StoreSorter<BeanModel>());
         to.setStore(storeAziendeNonAssegnate);
 
@@ -422,18 +426,6 @@ public class AnagraficaUtente extends LayoutContainer {
         comboLavoratore.setStore(storeLavoratori);
         comboLavoratore.setTypeAhead(true);
         comboLavoratore.setTriggerAction(TriggerAction.ALL);
-        comboLavoratore.getListView().setModelProcessor(new ModelProcessor<BeanModel>() {
-
-            @Override
-            public BeanModel prepareData(BeanModel model) {
-                if (model != null) {
-                    Lavoratore lavoratore = model.getBean();
-                    String str="ID: "+String.valueOf(lavoratore.getId());
-                    model.set("id", str);
-                }
-                return model;
-            }
-        });
         fieldSetLavoratore.add(comboLavoratore, formData);
 
         panel.add(fieldSetLavoratore);
