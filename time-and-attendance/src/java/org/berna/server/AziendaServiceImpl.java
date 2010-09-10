@@ -64,4 +64,5 @@ public class AziendaServiceImpl extends RemoteServiceServlet implements AziendaS
         }
         return null;
     }*/
+    //
 }
