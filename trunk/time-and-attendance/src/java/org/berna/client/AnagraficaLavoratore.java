@@ -11,6 +11,7 @@ import com.extjs.gxt.ui.client.Style.Orientation;
 import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.data.BeanModelFactory;
 import com.extjs.gxt.ui.client.data.BeanModelLookup;
+import com.extjs.gxt.ui.client.data.ModelData;
 import com.extjs.gxt.ui.client.data.ModelProcessor;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
@@ -28,13 +29,13 @@ import com.extjs.gxt.ui.client.widget.button.Button;
 import com.extjs.gxt.ui.client.widget.form.ComboBox;
 import com.extjs.gxt.ui.client.widget.form.ComboBox.TriggerAction;
 import com.extjs.gxt.ui.client.widget.form.FormPanel;
-import com.extjs.gxt.ui.client.widget.form.TextField;
+import com.extjs.gxt.ui.client.widget.form.SimpleComboBox;
 import com.extjs.gxt.ui.client.widget.grid.CellEditor;
 import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
+import com.extjs.gxt.ui.client.widget.layout.CenterLayout;
 import com.extjs.gxt.ui.client.widget.layout.RowData;
 import com.extjs.gxt.ui.client.widget.layout.RowLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
@@ -64,7 +65,7 @@ public class AnagraficaLavoratore extends LayoutContainer {
     @Override
     protected void onRender(Element parent, int index) {
         super.onRender(parent, index);
-        setLayout(new FlowLayout(10));
+        setLayout(new CenterLayout());
 
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
@@ -101,14 +102,58 @@ public class AnagraficaLavoratore extends LayoutContainer {
         column.setDateTimeFormat(DateTimeFormat.getShortDateFormat());
         configs.add(column);
 
+        final SimpleComboBox<String> qualifica = new SimpleComboBox<String>();
+        qualifica.setForceSelection(true);
+        qualifica.setTriggerAction(TriggerAction.ALL);
+        qualifica.add("Operaio");
+        qualifica.add("Impiegato");
+        qualifica.add("Dirigente");
+        qualifica.add("Apprendista non assic.");
+        qualifica.add("Apprendista assic.");
+        qualifica.add("Lavoratore a domicilio");
+        qualifica.add("Equiparato o intermedio");
+        qualifica.add("Viaggiatore o piazzista");
+        qualifica.add("Dirigente");
+        qualifica.add("Atipica");
+        qualifica.add("Lavoratore domestico");
+        qualifica.add("Pilota");
+        qualifica.add("Pilota in addestramento");
+        qualifica.add("Pilota collaudatore");
+        qualifica.add("Tecnico di volo");
+        qualifica.add("Tecnico di volo in addestr.");
+        qualifica.add("Tecnico di volo per collaudi");
+        qualifica.add("Assistente di volo");
+        qualifica.add("Giornalista");
+        qualifica.add("Lavoratore quadro");
+        qualifica.add("Apprendista qualif. impiegato");
+        qualifica.add("Lav.autonomo spettacolo");
+        qualifica.add("Apprendista qualif. operaio");
+        qualifica.add("Lav. escluso da contribuzione prev. e assist.");
+
+        CellEditor editor = new CellEditor(qualifica) {
+
+            @Override
+            public Object preProcessValue(Object value) {
+                if (value == null) {
+                    return value;
+                }
+                return qualifica.findModel(value.toString());
+            }
+
+            @Override
+            public Object postProcessValue(Object value) {
+                if (value == null) {
+                    return value;
+                }
+                return ((ModelData) value).get("value");
+            }
+        };
+
         column = new ColumnConfig();
         column.setId("qualifica");
         column.setHeader("Qualifica");
-        column.setWidth(150);
-
-        TextField<String> text = new TextField<String>();
-        text.setAllowBlank(false);
-        column.setEditor(new CellEditor(text));
+        column.setWidth(130);
+        column.setEditor(editor);
         configs.add(column);
 
         caricaAziende();
@@ -140,6 +185,7 @@ public class AnagraficaLavoratore extends LayoutContainer {
         comboAziende.addListener(Events.SelectionChange,
                 new Listener<SelectionChangedEvent<BeanModel>>() {
 
+            @Override
                     public void handleEvent(SelectionChangedEvent<BeanModel> be) {
                         filtraLavoratori();
                     }
@@ -191,6 +237,7 @@ public class AnagraficaLavoratore extends LayoutContainer {
             //conferma per l'eliminazione
             final Listener<MessageBoxEvent> cancellazione = new Listener<MessageBoxEvent>() {
 
+                @Override
                 public void handleEvent(MessageBoxEvent ce) {
                     Button btn = ce.getButtonClicked();
                     if (btn.getText().equals("Yes")) {
@@ -253,10 +300,12 @@ public class AnagraficaLavoratore extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 aziende = result;
                 BeanModelFactory factory = BeanModelLookup.get().getFactory(Azienda.class);
@@ -299,10 +348,12 @@ public class AnagraficaLavoratore extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 personeFisiche = result;
                 caricaLavoratori();
@@ -321,10 +372,12 @@ public class AnagraficaLavoratore extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 lavoratori = result;
                 filtraLavoratori();// <-- questo serve per fare in modo che tornando all'anagrafica lavoratori, la tabella si riaggiorni
@@ -344,10 +397,12 @@ public class AnagraficaLavoratore extends LayoutContainer {
         }
         AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Void result) {
                 status.setStatus("Dati cancellati con successo", baseStyle);
             }
@@ -363,10 +418,12 @@ public class AnagraficaLavoratore extends LayoutContainer {
         }
         AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Void result) {
                 status.setStatus("Dati aggiornati con successo", baseStyle);
             }

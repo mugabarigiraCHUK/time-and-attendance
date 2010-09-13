@@ -52,10 +52,10 @@ public class PresenzaUtil {
         return risultati;
     }
 
-    public static List getList(Date data1, Date data2, Azienda azienda) {
+    public static List getList(Date data1, Date data2, Long idAzienda) {
         List risultati = null;
         EntityManager em = EMF.get().createEntityManager();
-        Query q = em.createQuery("SELECT FROM Presenza p WHERE p.idAzienda = " + azienda.getId() + " AND p.dataPresenza BETWEEN :start AND :end");
+        Query q = em.createQuery("SELECT FROM Presenza p WHERE p.idAzienda = " + idAzienda + " AND p.dataPresenza BETWEEN :start AND :end");
         q.setParameter("start", data1, TemporalType.DATE);
         q.setParameter("end", data2, TemporalType.DATE);
         risultati = q.getResultList();

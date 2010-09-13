@@ -9,7 +9,6 @@ import com.extjs.gxt.ui.client.Style.Orientation;
 import com.extjs.gxt.ui.client.data.BeanModel;
 import com.extjs.gxt.ui.client.data.BeanModelFactory;
 import com.extjs.gxt.ui.client.data.BeanModelLookup;
-import com.extjs.gxt.ui.client.data.ModelProcessor;
 import com.extjs.gxt.ui.client.event.ButtonEvent;
 import com.extjs.gxt.ui.client.event.Events;
 import com.extjs.gxt.ui.client.event.Listener;
@@ -37,7 +36,7 @@ import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
+import com.extjs.gxt.ui.client.widget.layout.CenterLayout;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.extjs.gxt.ui.client.widget.layout.RowData;
@@ -75,7 +74,7 @@ public class AnagraficaUtente extends LayoutContainer {
     protected void onRender(Element parent, int index) {
 
         super.onRender(parent, index);
-        setLayout(new FlowLayout(10));
+        setLayout(new CenterLayout());
 
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
@@ -189,6 +188,7 @@ public class AnagraficaUtente extends LayoutContainer {
         grid.getSelectionModel().addListener(Events.SelectionChange,
                 new Listener<SelectionChangedEvent<BeanModel>>() {
 
+                    @Override
                     public void handleEvent(SelectionChangedEvent<BeanModel> be) {
                         if (be.getSelection().size() == 1) {
                             BeanModel model = be.getSelection().get(0);
@@ -254,21 +254,17 @@ public class AnagraficaUtente extends LayoutContainer {
 
             @Override
             public void componentSelected(ButtonEvent ce) {
-                if (aziende == null || aziende.isEmpty()) {
-                    //TODO messaggio di errore: aggiungere azienda
-                } else {
-                    BeanModelFactory factory = BeanModelLookup.get().getFactory(User.class);
-                    String ruolo = userRoles.get(0);
-                    User user = new User("NuovoUserName", "NuovaPassword", "NuovaEmail", ruolo);
-                    ArrayList<Long> idaziende = null;
-                    user.setIdAziende(idaziende);
-                    BeanModel model = factory.createModel(user);
+                BeanModelFactory factory = BeanModelLookup.get().getFactory(User.class);
+                String ruolo = userRoles.get(0);
+                User user = new User("NuovoUserName", "NuovaPassword", "NuovaEmail", ruolo);
+                ArrayList<Long> idaziende = null;
+                user.setIdAziende(idaziende);
+                BeanModel model = factory.createModel(user);
 
-                    grid.stopEditing();
-                    users.add(user);
-                    storeUtenti.insert(model, 0);
-                    grid.startEditing(storeUtenti.indexOf(model), 0);
-                }
+                grid.stopEditing();
+                users.add(user);
+                storeUtenti.insert(model, 0);
+                grid.startEditing(storeUtenti.indexOf(model), 0);
             }
         });
         toolBar.add(addButton);
@@ -289,6 +285,7 @@ public class AnagraficaUtente extends LayoutContainer {
             //conferma per l'eliminazione
             final Listener<MessageBoxEvent> cancellazione = new Listener<MessageBoxEvent>() {
 
+                @Override
                 public void handleEvent(MessageBoxEvent ce) {
                     Button btn = ce.getButtonClicked();
                     if (btn.getText().equals("Yes")) {
@@ -456,10 +453,12 @@ public class AnagraficaUtente extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 users = result;
                 //caricaAziende();
@@ -488,10 +487,12 @@ public class AnagraficaUtente extends LayoutContainer {
         }
         AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Void result) {
                 //I dati vengono ricaricati per ottenere gli ID assegnati dal DataStore alle entità appena aggiunte
                 caricaAziende();
@@ -508,10 +509,12 @@ public class AnagraficaUtente extends LayoutContainer {
         }
         AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Void result) {
                 status.setStatus("Dati cancellati con successo", baseStyle);
             }
@@ -528,10 +531,12 @@ public class AnagraficaUtente extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 aziende = result;
                 BeanModelFactory factory = BeanModelLookup.get().getFactory(Azienda.class);
