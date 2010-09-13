@@ -17,6 +17,6 @@ import java.util.ArrayList;
 public interface PresenzaService extends RemoteService {
     public boolean salva(Presenza presenza);
     public ArrayList carica(int mese, int anno, Lavoratore lavoratore);
-    public ArrayList carica(int mese, int anno, Azienda azienda);
+    public ArrayList carica(int mese, int anno, Long idAzienda);
     public void cancella(ArrayList list);
 }

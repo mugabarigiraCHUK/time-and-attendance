@@ -28,8 +28,8 @@ import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
+import com.extjs.gxt.ui.client.widget.layout.CenterLayout;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.core.client.GWT;
@@ -50,7 +50,7 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
 
         super.onRender(parent, index);
 
-        setLayout(new FlowLayout(10));
+        setLayout(new CenterLayout());
 
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 
@@ -152,6 +152,7 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
             //conferma per l'eliminazione
             final Listener<MessageBoxEvent> cancellazione = new Listener<MessageBoxEvent>() {
 
+                @Override
                 public void handleEvent(MessageBoxEvent ce) {
                     Button btn = ce.getButtonClicked();
                     if (btn.getText().equals("Yes")) {
@@ -213,10 +214,12 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 personeFisiche = result;
                 BeanModelFactory factory = BeanModelLookup.get().getFactory(PersonaFisica.class);
@@ -244,10 +247,12 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
         }
         AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Void result) {
                 //I dati vengono ricaricati per ottenere gli ID assegnati dal DataStore alle entità appena aggiunte
                 caricaDati();
@@ -264,10 +269,12 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
         }
         AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Void result) {
                 status.setStatus("Dati cancellati con successo", baseStyle);
             }

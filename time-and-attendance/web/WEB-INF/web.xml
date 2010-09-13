@@ -36,6 +36,10 @@
         <servlet-name>PresenzaService</servlet-name>
         <servlet-class>org.berna.server.PresenzaServiceImpl</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DownloadPresenzeServlet</servlet-name>
+        <servlet-class>org.berna.server.DownloadPresenzeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PersonaFisicaServiceImpl</servlet-name>
         <url-pattern>/org.berna.Main/PersonaFisicaService</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>PresenzaService</servlet-name>
         <url-pattern>/org.berna.Main/presenzaservice</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadPresenzeServlet</servlet-name>
+        <url-pattern>/DownloadPresenzeServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

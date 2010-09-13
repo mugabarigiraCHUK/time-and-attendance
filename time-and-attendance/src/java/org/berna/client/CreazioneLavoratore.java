@@ -37,6 +37,7 @@ import com.extjs.gxt.ui.client.widget.form.TextField;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
+import com.extjs.gxt.ui.client.widget.layout.CenterLayout;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.extjs.gxt.ui.client.widget.layout.RowData;
@@ -73,6 +74,7 @@ public class CreazioneLavoratore extends LayoutContainer {
     protected void onRender(Element parent, int index) {
         super.onRender(parent, index);
         setStyleAttribute("margin", "10px");
+        setLayout(new CenterLayout());
 
         ContentPanel cp = new ContentPanel();
 
@@ -86,6 +88,7 @@ public class CreazioneLavoratore extends LayoutContainer {
         grid.getSelectionModel().addListener(Events.SelectionChange,
                 new Listener<SelectionChangedEvent<BeanModel>>() {
 
+                    @Override
                     public void handleEvent(SelectionChangedEvent<BeanModel> be) {
                         if (be.getSelection().size() > 0) {
                             qualifica.clear();
@@ -278,10 +281,12 @@ public class CreazioneLavoratore extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 //personeFisiche = result;
                 BeanModelFactory factory = BeanModelLookup.get().getFactory(PersonaFisica.class);
@@ -311,10 +316,12 @@ public class CreazioneLavoratore extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 BeanModelFactory factory = BeanModelLookup.get().getFactory(Azienda.class);
                 if (result != null) {
@@ -386,10 +393,12 @@ public class CreazioneLavoratore extends LayoutContainer {
         }
         AsyncCallback<java.lang.Boolean> callback = new AsyncCallback<java.lang.Boolean>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Boolean result) {
                 if (result == true) {
                     status.setStatus("Lavoratore salvato con successo", baseStyle);

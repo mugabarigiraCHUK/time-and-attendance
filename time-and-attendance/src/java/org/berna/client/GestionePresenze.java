@@ -39,9 +39,8 @@ import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.Grid;
-import com.extjs.gxt.ui.client.widget.layout.ColumnData;
+import com.extjs.gxt.ui.client.widget.layout.CenterLayout;
 import com.extjs.gxt.ui.client.widget.layout.ColumnLayout;
-import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.layout.FormData;
 import com.extjs.gxt.ui.client.widget.layout.FormLayout;
 import com.extjs.gxt.ui.client.widget.layout.RowData;
@@ -92,7 +91,7 @@ public class GestionePresenze extends LayoutContainer {
     @Override
     protected void onRender(Element parent, int index) {
         super.onRender(parent, index);
-        setLayout(new FlowLayout(10));
+        setLayout(new CenterLayout());
 
         //Colonne per la tabella lavoratori
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
@@ -194,7 +193,6 @@ public class GestionePresenze extends LayoutContainer {
                         filtraLavoratori();
                     }
                 });
-        //main.add(comboAziende, new ColumnData(.3));
         main.add(comboAziende,formData2);
 
         //panel.add(new Label("Mese: "));
@@ -292,6 +290,7 @@ public class GestionePresenze extends LayoutContainer {
         gridLavoratori.getSelectionModel().addListener(Events.SelectionChange,
                 new Listener<SelectionChangedEvent<BeanModel>>() {
 
+                    @Override
                     public void handleEvent(SelectionChangedEvent<BeanModel> be) {
                         if (be.getSelection().size() > 0) {
                             formBindings.bind((ModelData) be.getSelection().get(0));
@@ -466,6 +465,7 @@ public class GestionePresenze extends LayoutContainer {
             //conferma per l'eliminazione
             final Listener<MessageBoxEvent> cancellazione = new Listener<MessageBoxEvent>() {
 
+                @Override
                 public void handleEvent(MessageBoxEvent ce) {
                     Button btn = ce.getButtonClicked();
                     if (btn.getText().equals("Yes")) {
@@ -500,10 +500,12 @@ public class GestionePresenze extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 aziende = result;
                 BeanModelFactory factory = BeanModelLookup.get().getFactory(Azienda.class);
@@ -546,10 +548,12 @@ public class GestionePresenze extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 personeFisiche = result;
                 caricaLavoratori();
@@ -568,10 +572,12 @@ public class GestionePresenze extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 lavoratori = result;
                 filtraLavoratori();// <-- questo serve per fare in modo che tornando all'anagrafica lavoratori, la tabella si riaggiorni
@@ -592,10 +598,12 @@ public class GestionePresenze extends LayoutContainer {
 
         AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(ArrayList result) {
                 presenze = result;
                 BeanModelFactory factory = BeanModelLookup.get().getFactory(Presenza.class);
@@ -623,10 +631,12 @@ public class GestionePresenze extends LayoutContainer {
         }
         AsyncCallback<Void> callback = new AsyncCallback<Void>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi di comunicazione col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Void result) {
                 status.setStatus("Presenze cancellate con successo", baseStyle);
             }
@@ -660,10 +670,12 @@ public class GestionePresenze extends LayoutContainer {
         }
         AsyncCallback<java.lang.Boolean> callback = new AsyncCallback<java.lang.Boolean>() {
 
+            @Override
             public void onFailure(Throwable caught) {
                 status.setStatus("Problemi col server", baseStyle);
             }
 
+            @Override
             public void onSuccess(Boolean result) {
                 if (result == true) {
                     status.setStatus("Presenza salvata con successo", baseStyle);

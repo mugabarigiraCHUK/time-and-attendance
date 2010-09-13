@@ -274,6 +274,7 @@ public class MainLayout extends LayoutContainer {
                         cardLayout.setActiveItem(dump);
                     } else {
                         cardLayout.setActiveItem(dump);
+                        dump.caricaDati();
                     }
                 }
             });

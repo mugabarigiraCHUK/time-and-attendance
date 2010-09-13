@@ -56,14 +56,14 @@ public class PresenzaServiceImpl extends RemoteServiceServlet implements Presenz
     }
 
     @Override
-    public ArrayList carica(int mese, int anno, Azienda azienda) {
+    public ArrayList carica(int mese, int anno, Long idAzienda) {
         List risultati = null;
         mese = mese-1;
         anno = anno-1900;
         Date date1 = new Date(anno, mese, 1);
         int giorno=DateUtils.getMaxDaysInMointh(anno, mese);
         Date date2 = new Date(anno, mese, giorno);
-        risultati = PresenzaUtil.getList(date1, date2, azienda);
+        risultati = PresenzaUtil.getList(date1, date2, idAzienda);
         ArrayList array = Utils.listToArray(risultati);
         System.out.println("Trovati: " + String.valueOf(array.size()));
         System.out.println("Caricamento dati eseguito con successo");
