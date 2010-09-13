@@ -32,9 +32,9 @@ public class Info extends LayoutContainer {
         panel = new ContentPanel();
         panel.setBodyStyle("padding: 6px");
         panel.setFrame(true);
-        panel.setHeading("Informazioni di sistema.");
+        panel.setHeading("Informazioni di sistema");
         panel.setWidth(400);
-        panel.setHeight(600);
+        panel.setHeight(500);
         panel.add(label);
         caricaDati();
         add(panel);

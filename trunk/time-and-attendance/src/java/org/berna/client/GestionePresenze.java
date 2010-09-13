@@ -436,9 +436,12 @@ public class GestionePresenze extends LayoutContainer {
             public void componentSelected(ButtonEvent ce) {
                 String str = idLavoratore.getValue();
                 Long idLavoratore = Long.parseLong(str);
+                BeanModel aziendaModel = comboAziende.getValue();
+                Azienda azienda = aziendaModel.getBean();
+                Long idAzienda = azienda.getId();
                 str = String.valueOf(quantita.getValue());
                 int q = Integer.parseInt(str);
-                Presenza nuovaPresenza = new Presenza(idLavoratore, dataPresenza.getValue(), q, comboTipo.getSimpleValue());
+                Presenza nuovaPresenza = new Presenza(idLavoratore, idAzienda, dataPresenza.getValue(), q, comboTipo.getSimpleValue());
                 salvaPresenza(nuovaPresenza);
             }
         });
