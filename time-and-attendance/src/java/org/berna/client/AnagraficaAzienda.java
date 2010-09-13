@@ -26,6 +26,7 @@ import com.extjs.gxt.ui.client.widget.grid.CheckBoxSelectionModel;
 import com.extjs.gxt.ui.client.widget.grid.ColumnConfig;
 import com.extjs.gxt.ui.client.widget.grid.ColumnModel;
 import com.extjs.gxt.ui.client.widget.grid.EditorGrid;
+import com.extjs.gxt.ui.client.widget.layout.CenterLayout;
 import com.extjs.gxt.ui.client.widget.layout.FitLayout;
 import com.extjs.gxt.ui.client.widget.layout.FlowLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.SeparatorToolItem;
@@ -51,7 +52,7 @@ public class AnagraficaAzienda extends LayoutContainer {
 
         super.onRender(parent, index);
 
-        setLayout(new FlowLayout(10));
+        setLayout(new CenterLayout());
 
         List<ColumnConfig> configs = new ArrayList<ColumnConfig>();
 

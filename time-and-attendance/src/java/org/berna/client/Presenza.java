@@ -27,6 +27,8 @@ public class Presenza implements Serializable {
     @Basic
     private Long idLavoratore;
     @Basic
+    private Long idAzienda;
+    @Basic
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataPresenza;
     @Basic
@@ -39,8 +41,9 @@ public class Presenza implements Serializable {
     public Presenza() {
     }
 
-    public Presenza(Long idLavoratore, Date dataPresenza, int quantita, String tipo) {
+    public Presenza(Long idLavoratore, Long idAzienda, Date dataPresenza, int quantita, String tipo) {
         this.idLavoratore = idLavoratore;
+        this.idAzienda=idAzienda;
         this.dataPresenza = dataPresenza;
         this.quantita = quantita;
         this.tipo = tipo;
@@ -52,6 +55,14 @@ public class Presenza implements Serializable {
 
     public void setDataPresenza(Date dataPresenza) {
         this.dataPresenza = dataPresenza;
+    }
+
+    public Long getIdAzienda() {
+        return idAzienda;
+    }
+
+    public void setIdAzienda(Long idAzienda) {
+        this.idAzienda = idAzienda;
     }
 
     public Long getIdLavoratore() {

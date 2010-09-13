@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
+import org.berna.client.Azienda;
 import org.berna.client.Lavoratore;
 import org.berna.client.Presenza;
 
@@ -45,6 +46,16 @@ public class PresenzaUtil {
         List risultati = null;
         EntityManager em = EMF.get().createEntityManager();
         Query q = em.createQuery("SELECT FROM Presenza p WHERE p.idLavoratore = " + lavoratore.getId() + " AND p.dataPresenza BETWEEN :start AND :end");
+        q.setParameter("start", data1, TemporalType.DATE);
+        q.setParameter("end", data2, TemporalType.DATE);
+        risultati = q.getResultList();
+        return risultati;
+    }
+
+    public static List getList(Date data1, Date data2, Azienda azienda) {
+        List risultati = null;
+        EntityManager em = EMF.get().createEntityManager();
+        Query q = em.createQuery("SELECT FROM Presenza p WHERE p.idAzienda = " + azienda.getId() + " AND p.dataPresenza BETWEEN :start AND :end");
         q.setParameter("start", data1, TemporalType.DATE);
         q.setParameter("end", data2, TemporalType.DATE);
         risultati = q.getResultList();

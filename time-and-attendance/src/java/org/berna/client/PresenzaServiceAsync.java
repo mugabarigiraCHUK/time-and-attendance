@@ -20,6 +20,8 @@ public interface PresenzaServiceAsync {
 
     public void cancella(ArrayList list, AsyncCallback<Void> asyncCallback);
 
+    public void carica(int mese, int anno, Azienda azienda, AsyncCallback<ArrayList> asyncCallback);
+
 
     
 }
