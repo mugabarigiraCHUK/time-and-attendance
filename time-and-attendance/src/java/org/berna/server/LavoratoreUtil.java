@@ -34,6 +34,19 @@ public class LavoratoreUtil {
         return risultati;
     }
 
+    public static Lavoratore getLavoratore(Long id) {
+        List risultati = null;
+        EntityManager em = EMF.get().createEntityManager();
+        Query q = em.createQuery("SELECT FROM Lavoratore l WHERE l.id = " + id);
+        q.setHint("datanucleus.appengine.datastoreReadConsistency", "EVENTUAL");
+        risultati = q.getResultList();
+        if (risultati.isEmpty()==true){
+            return null;
+        }
+        Lavoratore lavoratore = (Lavoratore) risultati.get(0);
+        return lavoratore;
+    }
+
     public static void save(Lavoratore lavoratore) {
         EntityManager em = EMF.get().createEntityManager();
         try {

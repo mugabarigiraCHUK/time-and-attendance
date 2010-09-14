@@ -193,7 +193,10 @@ public class GestionePresenze extends LayoutContainer {
                         filtraLavoratori();
                     }
                 });
-        main.add(comboAziende,formData2);
+        if (Login.loggedUser.getUserrole().equals("LAVORATORE")) {
+            comboAziende.disable();
+        }
+        main.add(comboAziende, formData2);
 
         //panel.add(new Label("Mese: "));
         comboMese = new SimpleComboBox<String>();
@@ -226,7 +229,7 @@ public class GestionePresenze extends LayoutContainer {
                     }
                 });
         //main.add(comboMese, new ColumnData(.3));
-        main.add(comboMese,formData2);
+        main.add(comboMese, formData2);
 
         //panel.add(new Label("Anno: "));
         comboAnno = new SimpleComboBox<String>();
@@ -254,8 +257,7 @@ public class GestionePresenze extends LayoutContainer {
                         }
                     }
                 });
-        //main.add(comboAnno, new ColumnData(.3));
-        main.add(comboAnno,formData2);
+        main.add(comboAnno, formData2);
 
         panel.add(main);
 
@@ -277,7 +279,7 @@ public class GestionePresenze extends LayoutContainer {
                     array = PersonaFisica.idToNome(lavoratore.getIdPersonaFisica(), personeFisiche);
                     String nome = array.get(0);
                     String cognome = array.get(1);
-                    String azienda = Azienda.idToNome(lavoratore.getIdAzienda(), aziende);
+                    String azienda = Azienda.idToDenominazione(lavoratore.getIdAzienda(), aziende);
                     model.set("nome", nome);
                     model.set("cognome", cognome);
                     model.set("azienda", azienda);
@@ -320,11 +322,12 @@ public class GestionePresenze extends LayoutContainer {
         gridPresenze.setStripeRows(true);
         cp.add(gridPresenze, new RowData(1, .3));
 
-
-        form = createForm();
-        formBindings = new FormBinding(form, true);
-        formBindings.setStore(gridLavoratori.getStore());
-        cp.add(form, new RowData(1, .3));
+        if (!(Login.loggedUser.getUserrole().equals("LAVORATORE"))) {
+            form = createForm();
+            formBindings = new FormBinding(form, true);
+            formBindings.setStore(gridLavoratori.getStore());
+            cp.add(form, new RowData(1, .3));
+        }
 
         ToolBar statusBar = new ToolBar();
         status.setWidth(350);
@@ -377,7 +380,7 @@ public class GestionePresenze extends LayoutContainer {
         panel.add(cognome, formData);*/
 
         FieldSet fieldSet = new FieldSet();
-        fieldSet.setHeading("Dati presenza");
+        fieldSet.setHeading("Dati presenza da aggiungere");
         FormLayout layout = new FormLayout();
         layout.setLabelWidth(75);
         fieldSet.setLayout(layout);
@@ -645,24 +648,6 @@ public class GestionePresenze extends LayoutContainer {
         dstoreSvcPresenza.cancella(presenzeDaRimuovere, callback);
     }
 
-    /*private void salvaDati(ArrayList<Presenza> presenza) {
-    // Initialize the service proxy.
-    if (dstoreSvcPresenza == null) {
-    dstoreSvcPresenza = GWT.create(LavoratoreService.class);
-    }
-    AsyncCallback<Void> callback = new AsyncCallback<Void>() {
-
-    public void onFailure(Throwable caught) {
-    status.setStatus("Problemi di comunicazione col server", baseStyle);
-    }
-
-    public void onSuccess(Void result) {
-    status.setStatus("Dati aggiornati con successo", baseStyle);
-    }
-    };
-    // Make the call to the stock price service.
-    dstoreSvcLAV.aggiorna(lavoratori, callback);
-    }*/
     private void salvaPresenza(Presenza nuovaPresenza) {
         // Initialize the service proxy.
         if (dstoreSvcPresenza == null) {
@@ -694,16 +679,22 @@ public class GestionePresenze extends LayoutContainer {
     //Serve per riempire la tabella con solo i lavoratori appartenenti all'azienda selezionata
     private void filtraLavoratori() {
         storeLavoratori.removeAll();
-        if (comboAziende.getValue() != null) {
+        if (comboAziende.getValue() != null || Login.loggedUser.getUserrole().equals("LAVORATORE")) {
             BeanModelFactory factory = BeanModelLookup.get().getFactory(Lavoratore.class);
             if (lavoratori != null) {
                 Iterator it = lavoratori.iterator();
                 while (it.hasNext()) {
                     Object lavoratore = it.next();
                     BeanModel lavoratoreModel = factory.createModel(lavoratore);
-                    BeanModel aziendaModel = comboAziende.getValue();
-                    if (aziendaModel.get("id").equals(lavoratoreModel.get("idAzienda"))) {
-                        storeLavoratori.add(lavoratoreModel);
+                    if (Login.loggedUser.getUserrole().equals("LAVORATORE")) {
+                        if (lavoratoreModel.get("id").equals(Login.loggedUser.getIdLavoratore())) {
+                            storeLavoratori.add(lavoratoreModel);
+                        }
+                    } else {
+                        BeanModel aziendaModel = comboAziende.getValue();
+                        if (aziendaModel.get("id").equals(lavoratoreModel.get("idAzienda"))) {
+                            storeLavoratori.add(lavoratoreModel);
+                        }
                     }
                 }
             }

@@ -22,4 +22,6 @@ public interface LavoratoreServiceAsync {
     public void aggiorna(ArrayList list, AsyncCallback<Void> asyncCallback);
 
     public void carica(Azienda azienda, AsyncCallback<ArrayList> asyncCallback);
+
+    public void caricaLavoratore(Long id, AsyncCallback<Lavoratore> asyncCallback);
 }
