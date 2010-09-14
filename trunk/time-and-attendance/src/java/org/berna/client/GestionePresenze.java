@@ -109,6 +109,12 @@ public class GestionePresenze extends LayoutContainer {
         configs.add(column);
 
         column = new ColumnConfig();
+        column.setId("cf");
+        column.setHeader("Codice fiscale");
+        column.setWidth(150);
+        configs.add(column);
+
+        column = new ColumnConfig();
         column.setId("azienda");
         column.setHeader("Azienda");
         column.setWidth(150);
@@ -279,9 +285,11 @@ public class GestionePresenze extends LayoutContainer {
                     array = PersonaFisica.idToNome(lavoratore.getIdPersonaFisica(), personeFisiche);
                     String nome = array.get(0);
                     String cognome = array.get(1);
+                    String cf = array.get(2);
                     String azienda = Azienda.idToDenominazione(lavoratore.getIdAzienda(), aziende);
                     model.set("nome", nome);
                     model.set("cognome", cognome);
+                    model.set("cf", cf);
                     model.set("azienda", azienda);
                 }
                 return model;
@@ -322,10 +330,11 @@ public class GestionePresenze extends LayoutContainer {
         gridPresenze.setStripeRows(true);
         cp.add(gridPresenze, new RowData(1, .3));
 
+
+        form = createForm();
+        formBindings = new FormBinding(form, true);
+        formBindings.setStore(gridLavoratori.getStore());
         if (!(Login.loggedUser.getUserrole().equals("LAVORATORE"))) {
-            form = createForm();
-            formBindings = new FormBinding(form, true);
-            formBindings.setStore(gridLavoratori.getStore());
             cp.add(form, new RowData(1, .3));
         }
 
@@ -367,18 +376,6 @@ public class GestionePresenze extends LayoutContainer {
         idLavoratore.setAllowBlank(false);
         panel.add(idLavoratore, formData);
 
-        /*nome = new TextField<String>();
-        nome.setName("nome");
-        nome.setFieldLabel("Nome");
-        nome.setEnabled(false);
-        panel.add(nome, formData);
-
-        cognome = new TextField<String>();
-        cognome.setName("cognome");
-        cognome.setFieldLabel("Cognome");
-        cognome.setEnabled(false);
-        panel.add(cognome, formData);*/
-
         FieldSet fieldSet = new FieldSet();
         fieldSet.setHeading("Dati presenza da aggiungere");
         FormLayout layout = new FormLayout();
@@ -392,8 +389,12 @@ public class GestionePresenze extends LayoutContainer {
         comboTipo.setAllowBlank(false);
         comboTipo.setWidth(150);
         comboTipo.setTriggerAction(TriggerAction.ALL);
-        comboTipo.add("Lavoro ordinario");
-        comboTipo.add("Lavoro straordinario");
+        ArrayList tipologieLavoro = TipologiaLavoro.generaTipologie();
+        Iterator it = tipologieLavoro.iterator();
+            while (it.hasNext()) {
+                TipologiaLavoro tip = (TipologiaLavoro) it.next();
+                comboTipo.add(tip.getNome());
+            }
         fieldSet.add(comboTipo, formData);
 
         dataPresenza = new MyDateField();

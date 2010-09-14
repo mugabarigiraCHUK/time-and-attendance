@@ -122,6 +122,22 @@ public class Azienda implements Serializable {
         return denominazione;
     }
 
+    public static String idToPiva(Long id, ArrayList<Azienda> list) {
+        String piva = "Lista nulla";
+        if (list != null) {
+            piva = "Non trovato";
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                Azienda azienda = (Azienda) it.next();
+                if (azienda.getId().equals(id)) {
+                    piva = azienda.getPiva();
+                    return piva;
+                }
+            }
+        }
+        return piva;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -30,7 +31,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.berna.client.Azienda;
+import org.berna.client.Lavoratore;
+import org.berna.client.PersonaFisica;
 import org.berna.client.Presenza;
+import org.berna.client.TipologiaLavoro;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -52,7 +56,7 @@ public class DownloadPresenzeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String xml = "";
-
+        
         String s = request.getParameter("idAzienda");
         Long idAzienda=Long.parseLong(s);
 
@@ -99,9 +103,14 @@ public class DownloadPresenzeServlet extends HttpServlet {
     }
 
     private Document creaPresenze(Long idAzienda, int mese, int anno) {
-        System.out.println(String.valueOf(idAzienda));
-        System.out.println(String.valueOf(mese));
-        System.out.println(String.valueOf(anno));
+        //System.out.println(String.valueOf(idAzienda));
+        //System.out.println(String.valueOf(mese));
+        //System.out.println(String.valueOf(anno));
+
+        List<Azienda> list = AziendaUtil.getList();
+        ArrayList aziende = Utils.listToArray(list);
+        String piva = Azienda.idToPiva(idAzienda, aziende);
+        //System.out.println("Partita iva: "+String.valueOf(piva));
 
         Document doc = null;
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -124,15 +133,36 @@ public class DownloadPresenzeServlet extends HttpServlet {
 
         for (Presenza presenza : presenze) {
 
+            //Ottenere codice fiscale a partire dall'idLavoratore
+            Long idLavoratore=presenza.getIdLavoratore();
+            List<Lavoratore> list2 = LavoratoreUtil.getList();
+            ArrayList<Lavoratore> lavoratori = Utils.listToArray(list2);
+            Long idPersonaFisica = Lavoratore.idToidPersonaFisica(idLavoratore, lavoratori);
+            //System.out.println("id persona fisica: "+String.valueOf(idPersonaFisica));
+            List<PersonaFisica> list3 = PersonaFisicaUtil.getList();
+            ArrayList<PersonaFisica> personeFisiche = Utils.listToArray(list3);
+            String cf = PersonaFisica.idToCf(idPersonaFisica, personeFisiche);
+            //System.out.println("cf: "+String.valueOf(cf));
+
+            int tipologia=0;
+            ArrayList tipologieLavoro = TipologiaLavoro.generaTipologie();
+            Iterator it = tipologieLavoro.iterator();
+            while (it.hasNext()) {
+                TipologiaLavoro tip = (TipologiaLavoro) it.next();
+                if(tip.getNome().equals(presenza.getTipo())){
+                    tipologia=tip.getCodice();
+                }
+            }
+
             Node pr = doc.createElement("Presenza");
             prs.appendChild(pr);
 
-            addNode(doc, pr, "Id", String.valueOf(presenza.getId()));
-            addNode(doc, pr, "IdLavoratore", String.valueOf(presenza.getIdLavoratore()));
-            addNode(doc, pr, "IdAzienda", String.valueOf(presenza.getIdAzienda()));
+            addNode(doc, pr, "Id_Presenza", String.valueOf(presenza.getId()));
+            addNode(doc, pr, "Piva_Azienda", piva);
+            addNode(doc, pr, "CF_Lavoratore", cf);
             addNode(doc, pr, "Data", String.valueOf(presenza.getDataPresenza()));
             addNode(doc, pr, "Quantita", String.valueOf(presenza.getQuantita()));
-            addNode(doc, pr, "Tipo", String.valueOf(presenza.getTipo()));
+            addNode(doc, pr, "Tipo", String.valueOf(tipologia));
 
         } // end for
 
