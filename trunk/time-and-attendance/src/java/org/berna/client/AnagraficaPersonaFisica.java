@@ -96,7 +96,11 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
         column.setDateTimeFormat(DateTimeFormat.getMediumDateFormat());
         configs.add(column);
 
-        caricaDati();
+        if (Login.loggedUser.getUserrole().equals("APP_ADMIN")) {
+            caricaDati();
+        } else {
+            caricaDatiConProprietario();
+        }
         status.setBusy("Caricamento dati in corso...");
 
         ColumnModel cm = new ColumnModel(configs);
@@ -125,7 +129,7 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
                 BeanModelLookup beanmodel = BeanModelLookup.get();
                 BeanModelFactory factory = beanmodel.getFactory(PersonaFisica.class);
                 Date data = new DateWrapper().clearTime().asDate();
-                PersonaFisica persona = new PersonaFisica("NuovoNome", "NuovoCognome","NuovoCF", data);
+                PersonaFisica persona = new PersonaFisica("NuovoNome", "NuovoCognome", "NuovoCF", data, Login.loggedUser.getId());
                 BeanModel model = factory.createModel(persona);
                 grid.stopEditing();
                 personeFisiche.add(persona);
@@ -240,6 +244,40 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
         dstoreSvc.carica(callback);
     }
 
+    public void caricaDatiConProprietario() {
+        // Initialize the service proxy.
+        if (dstoreSvc == null) {
+            dstoreSvc = GWT.create(PersonaFisicaService.class);
+        }
+
+        AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                status.setStatus("Problemi di comunicazione col server", baseStyle);
+            }
+
+            @Override
+            public void onSuccess(ArrayList result) {
+                personeFisiche = result;
+                BeanModelFactory factory = BeanModelLookup.get().getFactory(PersonaFisica.class);
+                if (result != null) {
+                    Iterator it = result.iterator();
+                    while (it.hasNext()) {
+                        Object personaFisica = it.next();
+                        BeanModel personaFisicaModel = factory.createModel(personaFisica);
+                        store.add(personaFisicaModel);
+                    }
+                }
+                status.setStatus("Dati caricati con successo", baseStyle);
+            }
+        };
+        // Make the call to the stock price service.
+        personeFisiche.clear();
+        store.removeAll();
+        dstoreSvc.carica(Login.loggedUser.getId(), callback);
+    }
+
     private void salvaDati(ArrayList<PersonaFisica> personeFisiche) {
         // Initialize the service proxy.
         if (dstoreSvc == null) {
@@ -255,7 +293,11 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
             @Override
             public void onSuccess(Void result) {
                 //I dati vengono ricaricati per ottenere gli ID assegnati dal DataStore alle entità appena aggiunte
-                caricaDati();
+                if (Login.loggedUser.getUserrole().equals("APP_ADMIN")) {
+                    caricaDati();
+                } else {
+                    caricaDatiConProprietario();
+                }
             }
         };
         // Make the call to the stock price service.

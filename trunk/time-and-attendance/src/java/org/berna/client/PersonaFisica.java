@@ -31,16 +31,27 @@ public class PersonaFisica implements Serializable {
     @Basic
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataNascita;
+    @Basic
+    private Long idProprietario;
 
     public PersonaFisica() {
         //super();
     }
 
-    public PersonaFisica(String nome, String cognome, String cf, Date dataNascita) {
+    public PersonaFisica(String nome, String cognome, String cf, Date dataNascita, Long idProprietario) {
         this.nome = nome;
         this.cognome = cognome;
         this.cf = cf;
         this.dataNascita = dataNascita;
+        this.idProprietario=idProprietario;
+    }
+
+    public Long getIdProprietario() {
+        return idProprietario;
+    }
+
+    public void setIdProprietario(Long idProprietario) {
+        this.idProprietario = idProprietario;
     }
 
     public String getCf() {

@@ -19,4 +19,6 @@ public interface PersonaFisicaServiceAsync {
     public void salva(ArrayList list, AsyncCallback<Void> callback);
 
     public void cancella(ArrayList list, AsyncCallback<Void> callback);
+
+    public void carica(Long idProprietario, AsyncCallback<ArrayList> asyncCallback);
 }

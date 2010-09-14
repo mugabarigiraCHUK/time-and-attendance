@@ -70,7 +70,7 @@ public class Login extends LayoutContainer {
                 String s2 = psw.getValue();
                 loggedUser.setPassword(s2);
                 //user e psw di amministrazione
-                if (s1.equals("admin") && s2.equals("admin")) {
+                if (s1.equals("admin") && s2.equals("123456789admin123456789admin")) {
                     loggedUser.setUsername(s1);
                     loggedUser.setUserrole("APP_ADMIN");
                     MainEntryPoint.start.initPanel();
