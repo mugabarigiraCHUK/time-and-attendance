@@ -44,6 +44,7 @@ import com.extjs.gxt.ui.client.widget.layout.RowData;
 import com.extjs.gxt.ui.client.widget.layout.RowLayout;
 import com.extjs.gxt.ui.client.widget.toolbar.ToolBar;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Iterator;
@@ -257,6 +258,19 @@ public class CreazioneLavoratore extends LayoutContainer {
         column.setId("cognome");
         column.setHeader("Cognome");
         column.setWidth(200);
+        configs.add(column);
+
+        column = new ColumnConfig();
+        column.setId("cf");
+        column.setHeader("Codice Fiscale");
+        column.setWidth(220);
+        configs.add(column);
+
+        column = new ColumnConfig();
+        column.setId("dataNascita");
+        column.setHeader("Data nascita");
+        column.setWidth(120);
+        column.setDateTimeFormat(DateTimeFormat.getMediumDateFormat());
         configs.add(column);
 
         storePF.setMonitorChanges(true);

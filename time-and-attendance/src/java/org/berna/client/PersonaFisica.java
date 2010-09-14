@@ -87,20 +87,39 @@ public class PersonaFisica implements Serializable {
         ArrayList array = new ArrayList();
         array.add("lista nulla");
         array.add("lista nulla");
+        array.add("lista nulla");
         if (list != null) {
             array.set(0, "Non trovato");
             array.set(1, "Non trovato");
+            array.set(2, "Non trovato");
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 PersonaFisica personaFisica = (PersonaFisica) it.next();
                 if (personaFisica.getId().equals(id)) {
                     array.set(0, personaFisica.getNome());
                     array.set(1, personaFisica.getCognome());
+                    array.set(2, personaFisica.getCf());
                     return array;
                 }
             }
         }
         return array;
+    }
+
+    public static String idToCf(Long id, ArrayList<PersonaFisica> list) {
+        String cf=null;
+        if (list != null) {
+            cf="non trovato";
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                PersonaFisica personaFisica = (PersonaFisica) it.next();
+                if (personaFisica.getId().equals(id)) {
+                    cf=personaFisica.getCf();
+                    return cf;
+                }
+            }
+        }
+        return cf;
     }
 
     @Override

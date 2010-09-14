@@ -90,6 +90,12 @@ public class AnagraficaLavoratore extends LayoutContainer {
         configs.add(column);
 
         column = new ColumnConfig();
+        column.setId("cf");
+        column.setHeader("Codice fiscale");
+        column.setWidth(150);
+        configs.add(column);
+
+        column = new ColumnConfig();
         column.setId("azienda");
         column.setHeader("Azienda");
         column.setWidth(150);
@@ -210,9 +216,11 @@ public class AnagraficaLavoratore extends LayoutContainer {
                     array = PersonaFisica.idToNome(lavoratore.getIdPersonaFisica(), personeFisiche);
                     String nome = array.get(0);
                     String cognome = array.get(1);
+                    String cf = array.get(2);
                     String azienda = Azienda.idToDenominazione(lavoratore.getIdAzienda(), aziende);
                     model.set("nome", nome);
                     model.set("cognome", cognome);
+                    model.set("cf", cf);
                     model.set("azienda", azienda);
                 }
                 return model;

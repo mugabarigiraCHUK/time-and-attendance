@@ -5,7 +5,9 @@
 package org.berna.client;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -82,6 +84,21 @@ public class Lavoratore implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public static Long idToidPersonaFisica(Long id, ArrayList<Lavoratore> list) {
+        Long idPF = null;
+        if (list != null) {
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+               Lavoratore lavoratore = (Lavoratore) it.next();
+                if (lavoratore.getId().equals(id)) {
+                    idPF = lavoratore.getIdPersonaFisica();
+                    return idPF;
+                }
+            }
+        }
+        return idPF;
     }
 
     @Override
