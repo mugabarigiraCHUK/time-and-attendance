@@ -185,7 +185,7 @@ public class AnagraficaLavoratore extends LayoutContainer {
         comboAziende.addListener(Events.SelectionChange,
                 new Listener<SelectionChangedEvent<BeanModel>>() {
 
-            @Override
+                    @Override
                     public void handleEvent(SelectionChangedEvent<BeanModel> be) {
                         filtraLavoratori();
                     }
@@ -210,7 +210,7 @@ public class AnagraficaLavoratore extends LayoutContainer {
                     array = PersonaFisica.idToNome(lavoratore.getIdPersonaFisica(), personeFisiche);
                     String nome = array.get(0);
                     String cognome = array.get(1);
-                    String azienda = Azienda.idToNome(lavoratore.getIdAzienda(), aziende);
+                    String azienda = Azienda.idToDenominazione(lavoratore.getIdAzienda(), aziende);
                     model.set("nome", nome);
                     model.set("cognome", cognome);
                     model.set("azienda", azienda);

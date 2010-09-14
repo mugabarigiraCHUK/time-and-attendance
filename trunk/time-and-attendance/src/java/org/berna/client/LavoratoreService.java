@@ -20,4 +20,5 @@ public interface LavoratoreService extends RemoteService {
     public boolean salva(Lavoratore lavoratore);
     public void cancella(ArrayList list);
     public void aggiorna(ArrayList list);
+    public Lavoratore caricaLavoratore(Long id);
 }

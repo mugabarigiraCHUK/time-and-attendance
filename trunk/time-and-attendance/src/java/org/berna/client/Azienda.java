@@ -106,20 +106,20 @@ public class Azienda implements Serializable {
         this.id = id;
     }
 
-    public static String idToNome(Long id, ArrayList<Azienda> list) {
-        String nome = "Lista nulla";
+    public static String idToDenominazione(Long id, ArrayList<Azienda> list) {
+        String denominazione = "Lista nulla";
         if (list != null) {
-            nome = "Non trovato";
+            denominazione = "Non trovato";
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 Azienda azienda = (Azienda) it.next();
                 if (azienda.getId().equals(id)) {
-                    nome = azienda.getNome();
-                    return nome;
+                    denominazione = azienda.getDenominazione();
+                    return denominazione;
                 }
             }
         }
-        return nome;
+        return denominazione;
     }
 
     @Override

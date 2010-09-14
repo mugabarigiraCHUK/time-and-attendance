@@ -38,8 +38,8 @@ public class LavoratoreServiceImpl extends RemoteServiceServlet implements Lavor
 
     public ArrayList carica() {
         List risultati = null;
-        risultati=LavoratoreUtil.getList();
-        ArrayList array=Utils.listToArray(risultati);
+        risultati = LavoratoreUtil.getList();
+        ArrayList array = Utils.listToArray(risultati);
         System.out.println("Caricamento dati eseguito con successo");
         return array;
     }
@@ -47,28 +47,36 @@ public class LavoratoreServiceImpl extends RemoteServiceServlet implements Lavor
     @Override
     public ArrayList carica(Azienda azienda) {
         List risultati = null;
-        risultati=LavoratoreUtil.getList(azienda);
-        ArrayList array=Utils.listToArray(risultati);
+        risultati = LavoratoreUtil.getList(azienda);
+        ArrayList array = Utils.listToArray(risultati);
         System.out.println("Caricamento dati eseguito con successo");
         return array;
     }
 
     public void cancella(ArrayList list) {
         if (list != null) {
-        	System.out.println("delete size: " + list.size()); //<-- da eliminare la riga
+            System.out.println("delete size: " + list.size()); //<-- da eliminare la riga
             Iterator it = list.iterator();
             while (it.hasNext()) {
-                LavoratoreUtil.remove((Lavoratore)it.next());
+                LavoratoreUtil.remove((Lavoratore) it.next());
             }
         }
     }
 
-        public void aggiorna(ArrayList list) {
+    public void aggiorna(ArrayList list) {
         if (list != null) {
             Iterator it = list.iterator();
             while (it.hasNext()) {
-                LavoratoreUtil.save((Lavoratore)it.next());
+                LavoratoreUtil.save((Lavoratore) it.next());
             }
         }
+    }
+
+    @Override
+    public Lavoratore caricaLavoratore(Long id) {
+        Lavoratore lavoratore = null;
+        lavoratore = LavoratoreUtil.getLavoratore(id);
+        System.out.println("Caricamento dati eseguito con successo");
+        return lavoratore;
     }
 }
