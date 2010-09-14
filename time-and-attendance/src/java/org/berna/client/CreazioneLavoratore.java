@@ -274,7 +274,11 @@ public class CreazioneLavoratore extends LayoutContainer {
         configs.add(column);
 
         storePF.setMonitorChanges(true);
-        caricaDatiPersoneFisiche();
+        if(Login.loggedUser.getUserrole().equals("APP_ADMIN")) {
+            caricaDatiPersoneFisiche();
+        } else {
+            caricaDatiPersoneFisicheConProprietario();
+        }
 
         ColumnModel cm = new ColumnModel(configs);
 
@@ -320,6 +324,41 @@ public class CreazioneLavoratore extends LayoutContainer {
         //personeFisiche.clear();
         storePF.removeAll();
         dstoreSvcPF.carica(callback);
+    }
+
+    public void caricaDatiPersoneFisicheConProprietario() {
+        // Initialize the service proxy.
+        if (dstoreSvcPF == null) {
+            dstoreSvcPF = GWT.create(PersonaFisicaService.class);
+        }
+
+        AsyncCallback<ArrayList> callback = new AsyncCallback<ArrayList>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                status.setStatus("Problemi di comunicazione col server", baseStyle);
+            }
+
+            @Override
+            public void onSuccess(ArrayList result) {
+                //personeFisiche = result;
+                BeanModelFactory factory = BeanModelLookup.get().getFactory(PersonaFisica.class);
+                if (result != null) {
+                    Iterator it = result.iterator();
+                    while (it.hasNext()) {
+                        Object personaFisica = it.next();
+                        BeanModel personaFisicaModel = factory.createModel(personaFisica);
+                        storePF.add(personaFisicaModel);
+                    }
+                }
+                caricaAziende();
+                //status.setStatus("Dati caricati con successo", baseStyle);
+            }
+        };
+        // Make the call to the stock price service.
+        //personeFisiche.clear();
+        storePF.removeAll();
+        dstoreSvcPF.carica(Login.loggedUser.getId(), callback);
     }
 
     private void caricaAziende() {

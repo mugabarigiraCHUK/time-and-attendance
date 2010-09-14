@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import org.berna.client.Azienda;
 import org.berna.client.Lavoratore;
+import org.berna.client.PersonaFisica;
 
 /**
  *
@@ -29,6 +30,15 @@ public class LavoratoreUtil {
         List risultati = null;
         EntityManager em = EMF.get().createEntityManager();
         Query q = em.createQuery("SELECT FROM Lavoratore l WHERE l.idAzienda = " + azienda.getId());
+        q.setHint("datanucleus.appengine.datastoreReadConsistency", "EVENTUAL");
+        risultati = q.getResultList();
+        return risultati;
+    }
+
+    public static List getList(PersonaFisica persona) {
+        List risultati = null;
+        EntityManager em = EMF.get().createEntityManager();
+        Query q = em.createQuery("SELECT FROM Lavoratore l WHERE l.idPersonaFisica = " + persona.getId());
         q.setHint("datanucleus.appengine.datastoreReadConsistency", "EVENTUAL");
         risultati = q.getResultList();
         return risultati;

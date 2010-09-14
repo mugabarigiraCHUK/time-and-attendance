@@ -12,6 +12,7 @@ import org.berna.client.Azienda;
 import org.berna.client.Lavoratore;
 
 import org.berna.client.LavoratoreService;
+import org.berna.client.Presenza;
 
 /**
  *

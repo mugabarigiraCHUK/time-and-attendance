@@ -16,6 +16,7 @@ import java.util.ArrayList;
 @RemoteServiceRelativePath("PersonaFisicaService")
 public interface PersonaFisicaService extends RemoteService {
     public ArrayList carica();
+    public ArrayList carica(Long idProprietario);
     public void salva(ArrayList list);
     public void cancella(ArrayList list);
 }

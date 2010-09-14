@@ -28,6 +28,19 @@ public class PersonaFisicaUtil {
         return risultati;
     }
 
+   public static List getList(Long idProprietario) {
+        List risultati = null;
+        try {
+        EntityManager em = EMF.get().createEntityManager();
+        Query q = em.createQuery("SELECT FROM PersonaFisica p WHERE p.idProprietario = " + idProprietario);
+        q.setHint("datanucleus.appengine.datastoreReadConsistency", "EVENTUAL");
+        risultati = q.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return risultati;
+    }
+
     public static void save(PersonaFisica personaFisica) {
         EntityManager em = EMF.get().createEntityManager();
         try {
