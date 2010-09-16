@@ -134,7 +134,6 @@ public class GestionePresenze extends LayoutContainer {
         configs.add(column);
 
         caricaAziende();
-        status.setBusy("Caricamento dati in corso...");
 
         cmLavoratori = new ColumnModel(configs);
 
@@ -538,6 +537,7 @@ public class GestionePresenze extends LayoutContainer {
             }
         };
         // Make the call to the stock price service.
+        status.setBusy("Caricamento dati in corso...");
         aziendeDiCompetenza = Login.loggedUser.getidAziende();
         storeAziende.removeAll();
         aziende.clear();

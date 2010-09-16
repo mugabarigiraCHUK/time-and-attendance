@@ -322,6 +322,7 @@ public class CreazioneLavoratore extends LayoutContainer {
         };
         // Make the call to the stock price service.
         //personeFisiche.clear();
+        status.setBusy("Caricamento dati in corso...");
         storePF.removeAll();
         dstoreSvcPF.carica(callback);
     }
@@ -357,6 +358,7 @@ public class CreazioneLavoratore extends LayoutContainer {
         };
         // Make the call to the stock price service.
         //personeFisiche.clear();
+        status.setBusy("Caricamento dati in corso...");
         storePF.removeAll();
         dstoreSvcPF.carica(Login.loggedUser.getId(), callback);
     }

@@ -35,8 +35,8 @@ public class Presenza implements Serializable {
     private int quantita;
     @Basic
     private String tipo;
-    @Basic
-    private Long idSede; //da implementare
+    //@Basic
+    //private Long idSede; //da implementare
 
     public Presenza() {
     }

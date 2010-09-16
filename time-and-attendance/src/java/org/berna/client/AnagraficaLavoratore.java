@@ -163,7 +163,6 @@ public class AnagraficaLavoratore extends LayoutContainer {
         configs.add(column);
 
         caricaAziende();
-        status.setBusy("Caricamento dati in corso...");
 
         cm = new ColumnModel(configs);
 
@@ -341,7 +340,8 @@ public class AnagraficaLavoratore extends LayoutContainer {
                 caricaPersonaFisiche();
             }
         };
-        // Make the call to the stock price service.     
+        // Make the call to the stock price service.
+        status.setBusy("Caricamento dati in corso...");
         aziendeDiCompetenza = Login.loggedUser.getidAziende();
         storeAziende.removeAll();
         aziende.clear();

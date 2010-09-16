@@ -101,7 +101,6 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
         } else {
             caricaDatiConProprietario();
         }
-        status.setBusy("Caricamento dati in corso...");
 
         ColumnModel cm = new ColumnModel(configs);
 
@@ -239,6 +238,7 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
             }
         };
         // Make the call to the stock price service.
+        status.setBusy("Caricamento dati in corso...");
         personeFisiche.clear();
         store.removeAll();
         dstoreSvc.carica(callback);
@@ -273,6 +273,7 @@ public class AnagraficaPersonaFisica extends LayoutContainer {
             }
         };
         // Make the call to the stock price service.
+        status.setBusy("Caricamento dati in corso...");
         personeFisiche.clear();
         store.removeAll();
         dstoreSvc.carica(Login.loggedUser.getId(), callback);

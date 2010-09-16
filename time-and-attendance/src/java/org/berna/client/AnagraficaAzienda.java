@@ -118,7 +118,6 @@ public class AnagraficaAzienda extends LayoutContainer {
         configs.add(column);
 
         caricaDati();
-        status.setBusy("Caricamento dati in corso...");
 
         ColumnModel cm = new ColumnModel(configs);
 
@@ -255,6 +254,7 @@ public class AnagraficaAzienda extends LayoutContainer {
             }
         };
         // Make the call to the stock price service.
+        status.setBusy("Caricamento dati in corso...");
         aziende.clear();
         store.removeAll();
         dstoreSvc.carica(callback);
