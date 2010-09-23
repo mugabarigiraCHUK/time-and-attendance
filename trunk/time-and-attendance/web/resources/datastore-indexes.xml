@@ -1,0 +1,75 @@
+<datastore-indexes autoGenerate="true">
+
+
+    <datastore-index kind="LivingStoryEntity$Summary" ancestor="true" source="auto">
+        <property name="timestamp" direction="asc"/>
+    </datastore-index>
+
+
+    <datastore-index kind="BaseContentEntity" ancestor="false" source="auto">
+        <property name="livingStoryId" direction="asc"/>
+        <property name="publishState" direction="asc"/>
+        <property name="timestamp" direction="desc"/>
+    </datastore-index>
+
+
+    <datastore-index kind="BaseContentEntity" ancestor="false" source="auto">
+        <property name="contentItemType" direction="asc"/>
+        <property name="livingStoryId" direction="asc"/>
+        <property name="publishState" direction="asc"/>
+        <property name="timestamp" direction="desc"/>
+    </datastore-index>
+
+
+    <datastore-index kind="BaseContentEntity" ancestor="false" source="auto">
+        <property name="contentItemType" direction="asc"/>
+        <property name="isStandalone" direction="asc"/>
+        <property name="livingStoryId" direction="asc"/>
+        <property name="publishState" direction="asc"/>
+        <property name="timestamp" direction="desc"/>
+    </datastore-index>
+
+
+    <datastore-index kind="BaseContentEntity" ancestor="false" source="auto">
+        <property name="livingStoryId" direction="asc"/>
+        <property name="timestamp" direction="desc"/>
+    </datastore-index>
+
+
+    <datastore-index kind="BaseContentEntity" ancestor="false" source="auto">
+        <property name="importance" direction="asc"/>
+        <property name="livingStoryId" direction="asc"/>
+        <property name="publishState" direction="asc"/>
+        <property name="timestamp" direction="desc"/>
+    </datastore-index>
+
+
+    <datastore-index kind="BaseContentEntity" ancestor="false" source="auto">
+        <property name="contentItemType" direction="asc"/>
+        <property name="importance" direction="asc"/>
+        <property name="livingStoryId" direction="asc"/>
+        <property name="publishState" direction="asc"/>
+        <property name="timestamp" direction="desc"/>
+    </datastore-index>
+
+
+    <datastore-index kind="BaseContentEntity" ancestor="false" source="auto">
+        <property name="assetType" direction="asc"/>
+        <property name="contentItemType" direction="asc"/>
+        <property name="importance" direction="asc"/>
+        <property name="livingStoryId" direction="asc"/>
+        <property name="publishState" direction="asc"/>
+        <property name="timestamp" direction="desc"/>
+    </datastore-index>
+
+
+    <datastore-index kind="BaseContentEntity" ancestor="false" source="auto">
+        <property name="assetType" direction="asc"/>
+        <property name="contentItemType" direction="asc"/>
+        <property name="livingStoryId" direction="asc"/>
+        <property name="publishState" direction="asc"/>
+        <property name="timestamp" direction="desc"/>
+    </datastore-index>
+
+
+</datastore-indexes>
